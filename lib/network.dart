@@ -13,7 +13,10 @@ class NetworkHelper {
     if (response.statusCode == 200) {
       String data = response.body;
 
-      return jsonDecode(data);
+      var decodedData = jsonDecode(data);
+      var lastPrice = decodedData['rate'];
+
+      return lastPrice;
     } else {
       print(response.statusCode);
     }

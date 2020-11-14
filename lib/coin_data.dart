@@ -1,7 +1,7 @@
 import 'package:bitcoin_ticker/network.dart';
 
 const List<String> currenciesList = [
-  'AUD',
+  'MYR',
   'BRL',
   'CAD',
   'CNY',
@@ -34,11 +34,27 @@ const myKey = 'CD591868-E7BB-43DE-8E3A-B581A9D7F592';
 const mapURL = 'https://rest.coinapi.io/v1/exchangerate';
 
 class CoinData {
-  Future<dynamic> getCoinData() async {
-    NetworkHelper network = NetworkHelper('$mapURL/BTC/MYR?apikey=$myKey');
+  Future<dynamic> getCoinData(selectedCurrency) async {
+    // var crypto = cryptoList.forEach(
+    //   (element) {
+    //     return element;
+    //   },
+    // ).toString();
 
-    var dataCoin = await network.getData();
+    // NetworkHelper network =
+    //     NetworkHelper('$mapURL/$crypto/$selectedCurrency?apikey=$myKey');
 
-    return dataCoin;
+    // return dataCoin;
+
+    Map<String, String> cryptoPrices = {};
+    for (String crypto in cryptoList) {
+      //Update the URL to use the crypto symbol from the cryptoList
+      NetworkHelper network =
+          NetworkHelper('$mapURL/$crypto/$selectedCurrency?apikey=$myKey');
+
+      var dataCoin = await network.getData();
+      cryptoPrices[crypto] = dataCoin.toStringAsFixed(0);
+    }
+    return cryptoPrices;
   }
 }
